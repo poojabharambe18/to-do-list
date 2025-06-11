@@ -1,15 +1,17 @@
-FROM python:3
+FROM python:3.11
 
 WORKDIR /data
 
-RUN pip install django==3.2
+# Install dependencies from requirements.txt
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
+# Copy all project files
 COPY . .
 
-RUN python manage.py migrate
-
+# Expose the Django port
 EXPOSE 8000
-
-CMD ["python","manage.py","runserver","0.0.0.0:8000"]
+# Run the development server
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
 
 
